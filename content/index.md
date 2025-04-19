@@ -1,6 +1,11 @@
 ---
-title: Welcome to Quartz
+title: Welcome to My Notes
+description: This is my digital garden.
 ---
 
-This is a blank Quartz installation.
-See the [documentation](https://quartz.jzhao.xyz) for how to get started.
+# 🧭 Welcome
+
+Here are some useful pages:
+
+- 📓 [CTF Machines](/Boxes)
+
