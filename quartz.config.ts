@@ -53,6 +53,11 @@ const config: QuartzConfig = {
       },
     },
   },
+  pageDefaults: {
+    frontmatter: {
+      isIndex: (page) => page.slug === "index",
+    },
+  },
   plugins: {
     transformers: [
       Plugin.FrontMatter(),
