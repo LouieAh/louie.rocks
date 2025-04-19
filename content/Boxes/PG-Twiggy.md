@@ -1,7 +1,7 @@
 #zeromq #zmtp #cve-2020-11651 #cve-2020-11652
 
 >[!code]- Find open ports (22, 53, 80, 4505, 4506, 8000)
->![Pasted image 20240723051959](Images/Pasted%20image%2020240723051959.png)
+>![Pasted image 20240723051959](/Images/Pasted%20image%2020240723051959.png)
 #### Foothold
 
 >[!code]- Find an exploit for ZeroMQ ZMTP 2.0
@@ -16,11 +16,11 @@
 >
 >Then I setup a **nc** listener and ran the exploit.
 >
->![Pasted image 20240723060402](Images/Pasted%20image%2020240723060402.png)
+>![Pasted image 20240723060402](/Images/Pasted%20image%2020240723060402.png)
 >
->![Pasted image 20240723060426](Images/Pasted%20image%2020240723060426.png)
+>![Pasted image 20240723060426](/Images/Pasted%20image%2020240723060426.png)
 
 >[!success]- Obtain proof.txt
->![Pasted image 20240723060456](Images/Pasted%20image%2020240723060456.png)
+>![Pasted image 20240723060456](/Images/Pasted%20image%2020240723060456.png)
 
 

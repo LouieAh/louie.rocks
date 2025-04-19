@@ -1,13 +1,13 @@
 #manageengine #servicedesk #7-6-0 #default-credentials #cve-2014-5301 #war #msfvenom
 
 >[!code]- Find open ports (135, 139, 445, 3389, 8080)
->![Pasted image 20240709061742](Images/Pasted%20image%2020240709061742.png)
+>![Pasted image 20240709061742](/Images/Pasted%20image%2020240709061742.png)
 #### Foothold
 
 >[!code]- Log into the portal on port 8080 using default credentials
 >As per [this webpage](https://help.servicedeskplus.com/introduction/start-servicedeskplus-server.html), the default credentials are **administrator**:**administrator**
 >>[!code]- Screenshot
->>![Pasted image 20240710051243](Images/Pasted%20image%2020240710051243.png)
+>>![Pasted image 20240710051243](/Images/Pasted%20image%2020240710051243.png)
 #### Access
 
 >[!code]- Find an authenticated file upload exploit that obtains a reverse shell
@@ -17,15 +17,15 @@
 >- Run the exploit
 >Create the war payload:
 >
->![Pasted image 20240710052015](Images/Pasted%20image%2020240710052015.png)
+>![Pasted image 20240710052015](/Images/Pasted%20image%2020240710052015.png)
 >
 >Run the exploit:
 >
->![Pasted image 20240710052116](Images/Pasted%20image%2020240710052116.png)
+>![Pasted image 20240710052116](/Images/Pasted%20image%2020240710052116.png)
 >
 >Catch the shell:
 >
->![Pasted image 20240710052152](Images/Pasted%20image%2020240710052152.png)
+>![Pasted image 20240710052152](/Images/Pasted%20image%2020240710052152.png)
 
 >[!success]- Obtain proof.txt
->![Pasted image 20240710052253](Images/Pasted%20image%2020240710052253.png)
+>![Pasted image 20240710052253](/Images/Pasted%20image%2020240710052253.png)

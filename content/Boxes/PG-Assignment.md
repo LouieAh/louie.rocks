@@ -7,19 +7,19 @@
 >[!code] Enumerate the ports
 >- rustscan -a $ip
 >
->![Pasted image 20240609145513](Images/Pasted%20image%2020240609145513.png)
+>![Pasted image 20240609145513](/Images/Pasted%20image%2020240609145513.png)
 
 >[!code]- Note the web server at port 8000 (a Gogs service)
 >- A Gogs service:
 >
->![Pasted image 20240610045354](Images/Pasted%20image%2020240610045354.png)
+>![Pasted image 20240610045354](/Images/Pasted%20image%2020240610045354.png)
 #### Local.txt
 ##### Find login credentials for the Gogs service
 
 >[!code]- Navigate to the web server on port 80 (a notes.pg service)
 >We're met with a login page:
 >>[!code]- Screenshot of the login page
->>![Pasted image 20240610043302](Images/Pasted%20image%2020240610043302.png)
+>>![Pasted image 20240610043302](/Images/Pasted%20image%2020240610043302.png)
 
 >[!code]- Create an account and note the POST payload
 Note the POST data used when creating an account:
@@ -33,20 +33,20 @@ Note the POST data used when creating an account:
 >- We are told we have _Insufficient rights!_ to access ../notes/1
 >
 >>[!code]- Create a new note
->>![Pasted image 20240610044141](Images/Pasted%20image%2020240610044141.png)
+>>![Pasted image 20240610044141](/Images/Pasted%20image%2020240610044141.png)
 >
 >>[!code]- Note the URL of the created note (.../notes/6)
->>![Pasted image 20240610044202](Images/Pasted%20image%2020240610044202.png)
+>>![Pasted image 20240610044202](/Images/Pasted%20image%2020240610044202.png)
 >
 >>[!code]- Cannot access .../notes/1
->>![Pasted image 20240610044356](Images/Pasted%20image%2020240610044356.png)
+>>![Pasted image 20240610044356](/Images/Pasted%20image%2020240610044356.png)
 
 >[!Exploit]- Priv Esc 1. Find leaked credentials for another account
 >- The _members_ page includes the POST payload of a created account.
 >- It suggests an account has the username _forged_owner_:_forged_owner_
 >
 >>[!code]- The members page
->>![Pasted image 20240610043459](Images/Pasted%20image%2020240610043459.png)
+>>![Pasted image 20240610043459](/Images/Pasted%20image%2020240610043459.png)
 
 >[!exploit]- Priv Esc 2. Abuse the _role_ attribute when creating a new account
 >- When browsing our profile information, we see there is a _role_ attribute which equals _member_.
@@ -54,10 +54,10 @@ Note the POST data used when creating an account:
 >- This suggests when creating a new account we can set this role attribute to owner.
 >
 >>[!code]- Profile of our account
->>![Pasted image 20240611045102](Images/Pasted%20image%2020240611045102.png)
+>>![Pasted image 20240611045102](/Images/Pasted%20image%2020240611045102.png)
 >
 >>[!code]- Profile of the _jane_ account
->>![Pasted image 20240611045138](Images/Pasted%20image%2020240611045138.png)
+>>![Pasted image 20240611045138](/Images/Pasted%20image%2020240611045138.png)
 >
 >So, when creating a new account (_forged_owner_), we can edit the payload to make our role be an _owner_:
 >```powershell
@@ -68,7 +68,7 @@ Note the POST data used when creating an account:
 >- It appears to contain credentials for the Gogs service (running at port 8000):
 >
 >>[!code]- Note 1
->>![Pasted image 20240610044811](Images/Pasted%20image%2020240610044811.png)
+>>![Pasted image 20240610044811](/Images/Pasted%20image%2020240610044811.png)
 
 >[!success]- Obtain credentials `jane`:`svc-dev2022@@@!;P;4SSw0Rd`
 ##### Obtain a reverse shell via the Gogs service
@@ -76,7 +76,7 @@ Note the POST data used when creating an account:
 >[!code]- Login to Gogs and create a new repository
 >Create a new repository
 >>[!code]- Create a new repository
->>![Pasted image 20240610045601](Images/Pasted%20image%2020240610045601.png)
+>>![Pasted image 20240610045601](/Images/Pasted%20image%2020240610045601.png)
 
 >[!exploit]- Exploit - We can edit the _update_ Git Hook to execute a reverse shell
 >Update the 'update' Git Hook so that it executes a reverse shell.
@@ -84,7 +84,7 @@ Note the POST data used when creating an account:
 >- The chosen reverse shell is [Netcat Busybox](https://swisskyrepo.github.io/InternalAllTheThings/cheatsheets/shell-reverse-cheatsheet/#netcat-busybox)
 >
 >>[!code]- Adding a reverse shell into the update Git Hook
->>![Pasted image 20240610045801](Images/Pasted%20image%2020240610045801.png)
+>>![Pasted image 20240610045801](/Images/Pasted%20image%2020240610045801.png)
 >
 >>[!code]- Netcat Busybox reverse shell
 >>```bash
@@ -116,7 +116,7 @@ Note the POST data used when creating an account:
 
 >[!success]- Obtain local.txt
 >After receiving our reverse shell, we can find local.txt:
->![Pasted image 20240610053205](Images/Pasted%20image%2020240610053205.png)
+>![Pasted image 20240610053205](/Images/Pasted%20image%2020240610053205.png)
 
 >[!code]- Get SSH access as Jane
 >Create the authorized_keys folder on victim:
@@ -139,11 +139,11 @@ Note the POST data used when creating an account:
 >- A script is executing a vulnerable command as root
 >
 >>[!code]- Cron job
->>![Pasted image 20240612044104](Images/Pasted%20image%2020240612044104.png)
+>>![Pasted image 20240612044104](/Images/Pasted%20image%2020240612044104.png)
 >
 >We have write permissions on the /dev/shm/ folder:
 >>[!code]- /dev/shm/ permissions
->>![Pasted image 20240612044327](Images/Pasted%20image%2020240612044327.png)
+>>![Pasted image 20240612044327](/Images/Pasted%20image%2020240612044327.png)
 
 >[!exploit]- Exploit - Create a malicious file for the find command
 >- The cron job finds all files within the _/dev/shm/_ directory and passes them to the _rm_ command which executes them
@@ -154,7 +154,7 @@ Note the POST data used when creating an account:
 >```
 >
 >>[!code]- The decoded base64 string
->>![Pasted image 20240611052054](Images/Pasted%20image%2020240611052054.png)
+>>![Pasted image 20240611052054](/Images/Pasted%20image%2020240611052054.png)
 >
 >This would cause the cron script to execute:
 >```bash
@@ -162,22 +162,22 @@ Note the POST data used when creating an account:
 >```
 >After creating the file, /dev/shm/ contains:
 >>[!code]- /dev/shm with the malicious file
->>![Pasted image 20240612045538](Images/Pasted%20image%2020240612045538.png)
+>>![Pasted image 20240612045538](/Images/Pasted%20image%2020240612045538.png)
 >
 >The permissions of the /bin/bash change after executing:
 >>[!code]- /bin/bash permission change
 >>Before:
->>![Pasted image 20240612045037](Images/Pasted%20image%2020240612045037.png)
+>>![Pasted image 20240612045037](/Images/Pasted%20image%2020240612045037.png)
 >>After:
->>![Pasted image 20240612045606](Images/Pasted%20image%2020240612045606.png)
+>>![Pasted image 20240612045606](/Images/Pasted%20image%2020240612045606.png)
 >
 >Now we can execute bash with the permissions of the owner (**-p**):
 >
->![Pasted image 20240612045719](Images/Pasted%20image%2020240612045719.png)
+>![Pasted image 20240612045719](/Images/Pasted%20image%2020240612045719.png)
 
 >[!success]- Obtain proof.txt
 >
->![Pasted image 20240612045907](Images/Pasted%20image%2020240612045907.png)
+>![Pasted image 20240612045907](/Images/Pasted%20image%2020240612045907.png)
 
 
 
