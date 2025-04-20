@@ -9,7 +9,8 @@ private/
 .replit
 replit.nix
 content/Templates
-content/Images
 content/CTFs
 content/Exams
 **/HTB-Dante.md
+**/.trash
+.gitignore
