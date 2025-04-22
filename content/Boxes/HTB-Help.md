@@ -10,9 +10,11 @@ tags:
 created: 2025-04-19
 lastmod: 2025-04-22
 published: 2025-04-22
-image: /static/note-thumbnail-htb-help.png
+image: /static/completed-screenshots/htb-help.png
 description: Help is an Easy Linux box which has a GraphQL endpoint which can be enumerated get a set of credentials for a HelpDesk software. The software is vulnerable to blind SQL injection which can be exploited to get a password for SSH Login. Alternatively an unauthenticated arbitrary file upload can be exploited to get RCE. Then the kernel is found to be vulnerable and can be exploited to get a root shell.
 ---
+
+![HTB-Help thumbnail](/static/note-thumbnails/htb-help.png)
 ## Initial Enumeration
 
 >[!code]- Open ports (22, 80, 3000)
@@ -174,7 +176,7 @@ description: Help is an Easy Linux box which has a GraphQL endpoint which can be
 >
 >![[Images/Pasted image 20250422053903.png]]
 >
- This prompted me to see whether I could compile the file on the victim machine instead. Fortunately the victim machine had `gcc` installed, so I could:
+ >This prompted me to see whether I could compile the file on the victim machine instead. Fortunately the victim machine had `gcc` installed, so I could:
  >
  >![[Images/Pasted image 20250422053957.png]]
 
