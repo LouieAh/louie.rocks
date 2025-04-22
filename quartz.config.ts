@@ -24,6 +24,7 @@ const config: QuartzConfig = {
       "**/CTFs",
       "**/Exams",
       "**/Templates",
+      "**/Training Material",
     ],
     defaultDateType: "modified",
     theme: {
