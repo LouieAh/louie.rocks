@@ -4,11 +4,13 @@ tags:
   - apache
   - htpasswd
 created: 2025-04-05
-image: static/note-thumbnails/htb-help.png
+published: 2025-04-05
+lastmod: 2025-04-05
+image: static/completed-thumbnails/htb-alert.png
 description: Alert is an easy-difficulty Linux machine with a website to upload, view, and share markdown files. The site is vulnerable to cross-site scripting (XSS), which is exploited to access an internal page vulnerable to Arbitrary File Read and leveraged to gain access to a password hash. The hash is then cracked to reveal the credentials leveraged to gain `SSH` access to the target. Enumeration of processes running on the system shows a `PHP` file that is being executed regularly, which has excessive privileges for the management group our user is a member of and allows us to overwrite the file for code execution as root.
 ---
 
-![](static/note-thumbnails/htb-help.png)
+![](static/note-thumbnails/htb-alert.png)
 ### Initial enumeration
 
 >[!code]- Open ports (22, 80, 12227)
@@ -146,3 +148,5 @@ description: Alert is an easy-difficulty Linux machine with a website to upload,
 
 >[!success]- Obtain root.txt
 >![Pasted image 20250408064850](Images/Pasted%20image%2020250408064850.png)
+
+![](static/completed-thumbnails/htb-alert.png)

@@ -1,4 +1,13 @@
-#gpp-cached-password #smb #smbclient #kerberoast
+---
+tags:
+- gpp-cached-password
+- kerberoast
+created: 2024-04-01
+lastmod: 2024-04-01
+published: 2024-04-01
+image:
+description: 
+---
 
 >[!code]- Find open ports
 >
@@ -18,7 +27,7 @@
 >![Pasted image 20240830140113](Images/Pasted%20image%2020240830140113.png)
 
 >[!code]- Decrypt the password for **svc_tgs** user (GPPstillStandingStrong2k18)
-![Pasted image 20240830141054](Images/Pasted%20image%2020240830141054.png)
+>![Pasted image 20240830141054](Images/Pasted%20image%2020240830141054.png)
 
 >[!success]- Obtain user.txt by accessing **Users** share with **svc_tgs** credentials
 >Download all available files (which includes **user.txt** within the user's Desktop):

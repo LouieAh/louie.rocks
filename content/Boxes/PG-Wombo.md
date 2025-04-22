@@ -1,4 +1,12 @@
-#redis #redis-5
+---
+tags:
+- redis
+created: 2024-04-01
+lastmod: 2024-04-01
+published: 2024-04-01
+image:
+description: 
+---
 
 >[!code]- Find open port (22, 80, 6379, 8080, 27017)
 >![Pasted image 20240723062111](Pasted%20image%2020240723062111.png)

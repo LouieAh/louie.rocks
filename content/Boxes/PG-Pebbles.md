@@ -1,4 +1,13 @@
-#sqli #zoneminder
+---
+tags:
+- sqli
+- zoneminder
+created: 2024-04-01
+lastmod: 2024-04-01
+published: 2024-04-01
+image:
+description: 
+---
 
 >[!code]- Find open ports (21, 22, 80, 8080)
 >![Pasted image 20240808043403](Images/Pasted%20image%2020240808043403.png)

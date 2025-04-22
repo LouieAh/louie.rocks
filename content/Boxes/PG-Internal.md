@@ -1,4 +1,13 @@
-#cve-2009-3103 #ms09-050
+---
+tags:
+- cve-2009-3103
+- ms09-050
+created: 2024-04-01
+lastmod: 2024-04-01
+published: 2024-04-01
+image:
+description: 
+---
 
 >[!code]- Find open ports (53, 135, 139, 445, 3389, 5357, 49152-8)
 >![Pasted image 20240712043019](Pasted%20image%2020240712043019.png)

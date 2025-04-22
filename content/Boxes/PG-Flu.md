@@ -1,5 +1,15 @@
-#atlassian #confluence #cve-2022-26134 #cron #bash-p
-
+---
+tags:
+- atlassian
+- confluence
+- cve-2022-26134
+- bash-p
+created: 2024-04-01
+lastmod: 2024-04-01
+published: 2024-04-01
+image:
+description: 
+---
 >[!code]- Find open ports (22, 8090, 8091)
 >
 >![Pasted image 20240807044250](Pasted%20image%2020240807044250.png)

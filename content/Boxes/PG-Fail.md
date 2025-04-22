@@ -1,4 +1,14 @@
-#rsync #fail2ban #actiond
+---
+tags:
+- rsync
+- fail2ban
+- actiond
+created: 2024-04-01
+lastmod: 2024-04-01
+published: 2024-04-01
+image:
+description: 
+---
 
 >[!code]- Find open ports (22, 873)
 >Forgot to get a screenshot.

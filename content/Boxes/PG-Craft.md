@@ -1,5 +1,15 @@
-#odt #libre-office #macros #client-side-attack #apache #seimpersonateprivilege #printspoofer
-
+---
+tags:
+- odt
+- macros
+- seimpersonateprivilege
+- printspoofer
+created: 2024-04-01
+lastmod: 2024-04-01
+published: 2024-04-01
+image:
+description: 
+---
 >[!code]- Open ports (80)
 >![Pasted image 20241121065140](Images/Pasted%20image%2020241121065140.png)
 #### Thecybergeek shell

@@ -1,4 +1,12 @@
-192.168.219.105
+---
+tags:
+- 
+created: 2024-04-01
+lastmod: 2024-04-01
+published: 2024-04-01
+image:
+description: 
+---
 
 >[!code]- Open ports
 >![Pasted image 20241212054212](Images/Pasted%20image%2020241212054212.png)

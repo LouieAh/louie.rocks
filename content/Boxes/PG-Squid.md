@@ -1,4 +1,16 @@
-#squid #proxy #default-credentials #phpmyadmin #sql #into-outfile #local-service #fullpowers
+---
+tags:
+- squid
+- default-credentials
+- phpmyadmin
+- into-outfile
+- fullpowers
+created: 2024-04-01
+lastmod: 2024-04-01
+published: 2024-04-01
+image:
+description: 
+---
 
 >[!code]- Open ports
 >![Pasted image 20241206044327](Images/Pasted%20image%2020241206044327.png)

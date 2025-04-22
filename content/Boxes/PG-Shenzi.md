@@ -1,4 +1,14 @@
-#always-install-elevated #wordpress #msi
+---
+tags:
+- always-install-elevated
+- wordpress
+- msi
+created: 2024-04-01
+lastmod: 2024-04-01
+published: 2024-04-01
+image:
+description: 
+---
 
 >[!code]- Find open ports (21, 80, 135, 139, 443, 445, 3306)
 >

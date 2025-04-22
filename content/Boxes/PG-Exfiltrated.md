@@ -1,8 +1,17 @@
-#### Tags
-- All: #subrion-cms #default-credentials #file-upload #exploit-49876 #phar #cron #exiftool #djvu #exploit-50911
-- Foothold: #subrion-cms #default-credentials 
-- Access: #file-upload #phar #exploit-49876
-- Privilege Escalation: #cron #exiftool #djvu #exploit-50911
+---
+tags:
+- subrion
+- file-upload
+- exploit-49876
+- exiftool
+- djvu
+- exploit-50911
+created: 2024-04-01
+lastmod: 2024-04-01
+published: 2024-04-01
+image:
+description: 
+---
 
 >[!code]- Scan open ports (22, 80)
 >

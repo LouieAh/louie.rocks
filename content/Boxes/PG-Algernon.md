@@ -1,4 +1,16 @@
-#smartmail #port9998 #distinct32 #exploit-49216 #cve-2019-7214
+---
+tags:
+- smartmail
+- port9998
+- distinct32
+- exploit-49216
+- cve-2019-7214
+created: 2024-04-01
+lastmod: 2024-04-01
+published: 2024-04-01
+image:
+description: 
+---
 ## Enumerate
 
 > [!NOTE] Nmap -sS -p-

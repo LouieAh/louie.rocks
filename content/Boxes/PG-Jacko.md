@@ -1,4 +1,17 @@
-#h2-console #path-fixing #god-potato #exploit-49382 #paperstream #twain
+---
+tags:
+- h2-console
+- path-fixing
+- god-potato
+- exploit-49382
+- paperstream
+- twain
+created: 2024-04-01
+lastmod: 2024-04-01
+published: 2024-04-01
+image:
+description: 
+---
 
 >[!code]- Find open ports (80, 135, 139, 445, 5040, 8082, 9092)
 >

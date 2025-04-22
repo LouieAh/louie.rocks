@@ -1,4 +1,14 @@
-#barracuda #lua #sqli #xp-cmd-sh 
+---
+tags:
+- barracuda
+- lua
+- xp-cmd-sh
+created: 2024-04-01
+lastmod: 2024-04-01
+published: 2024-04-01
+image:
+description: 
+---
 
 192.168.249.127
 

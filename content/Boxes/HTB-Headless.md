@@ -1,4 +1,14 @@
-#xss #user-agent #command-injection #syscheck #bash-p 
+---
+tags:
+- xss
+- bash-p
+- command-injection
+created: 2024-04-01
+lastmod: 2024-04-01
+published: 2024-04-01
+image:
+description: 
+---
 
 >[!code]- Open ports (22, 5000)
 >![Pasted image 20250402055443](Images/Pasted%20image%2020250402055443.png)

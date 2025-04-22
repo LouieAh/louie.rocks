@@ -1,4 +1,14 @@
-#rfi #php-data-filter #tftp-exe
+---
+tags:
+- rfi
+- php-data-filter
+- tftp-exe
+created: 2024-04-01
+lastmod: 2024-04-01
+published: 2024-04-01
+image:
+description: 
+---
 
 >[!code]- Find open ports (21, 135, 139, 445, 3306, 4443, 8080)
 >

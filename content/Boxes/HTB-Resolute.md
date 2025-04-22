@@ -1,4 +1,14 @@
-#rpcclient #querydispinfo #cme #password-spray #powershell-transcripts #user-descriptions #dnsadmins #dll-injection
+---
+tags:
+- powershell-transcripts
+- dnsadmins
+- dll-injection
+created: 2024-04-01
+lastmod: 2024-04-01
+published: 2024-04-01
+image:
+description: 
+---
 
 >[!code]- Find open ports
 >

@@ -1,8 +1,14 @@
-#### Tags:
-- All: #codoforum #default-credentials #file-upload #exploit-50978 #su #config-password
-- Foothold: #codoforum #default-credentials 
-- Access: #file-upload #exploit-50978 
-- Privilege Escalation: #su #config-password
+---
+tags:
+- codoforum
+- file-upload
+- exploit-50978
+created: 2024-04-01
+lastmod: 2024-04-01
+published: 2024-04-01
+image:
+description: 
+---
 
 >[!code]- Discover open ports (22, 80)
 >![Pasted image 20240619060806](Pasted%20image%2020240619060806.png)

@@ -1,5 +1,13 @@
-#zen-photo #busybox #linux-kernel #kernel-2-6-32 #kernel-exploit #linux-2-6-32
-
+---
+tags:
+- zen-photo
+- linux-2-6-32
+created: 2024-04-01
+lastmod: 2024-04-01
+published: 2024-04-01
+image:
+description: 
+---
 >[!code] Find open ports (22, 23, 80, 3306)
 >![Pasted image 20241028064832](Images/Pasted%20image%2020241028064832.png)
 #### www-data

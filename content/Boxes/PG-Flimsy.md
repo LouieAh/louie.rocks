@@ -1,4 +1,17 @@
-#apisix #cve-2022-24112 #exploit-50829 #cron #apt-get #apt-conf-d #bash-p
+---
+tags:
+- apisix
+- cve-2022-24112
+- exploit-50829
+- bash-p
+- apt-get
+- apt-conf-d
+created: 2024-04-01
+lastmod: 2024-04-01
+published: 2024-04-01
+image:
+description: 
+---
 
 >[!code]- Find open ports (22, 80, 3306, 43500)
 >![Pasted image 20240702061310](Pasted%20image%2020240702061310.png)

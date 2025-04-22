@@ -1,4 +1,13 @@
-
+---
+tags:
+- 
+created: 2024-04-01
+lastmod: 2024-04-01
+published: 2024-04-01
+image:
+description: 
+draft: true
+---
 The Premonition:  ZEPHYR{HuM4n_3rr0r_1s_0uR_D0wnf4ll}  | Send malicious PDF via job board and intercept password hash for riley (Bad-PDF)  
 Back Tracking:  ZEPHYR{L34v3_N0_St0n3_Un7urN3d} | Get root on mail.painters.htb (110.51) as Matt by authenticating with his password (retrieved from painters.htb DCSync)  
 Recycled:  ZEPHYR{PwN1nG_W17h_P4s5W0rd_R3U53} | Get session as riley on WORKSTATION-1 (110.56) (password re-use, duh)  

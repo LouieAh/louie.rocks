@@ -1,4 +1,15 @@
-#api #werkzeug #python #port50000 #port18000 #service-file #pythonapp-service #systemd #eof
+---
+tags:
+- api
+- werkzeug
+- port50000
+- port18000
+created: 2024-04-01
+lastmod: 2024-04-01
+published: 2024-04-01
+image:
+description: 
+---
 
 >[!code]- Open ports
 >![Pasted image 20241206061232](Images/Pasted%20image%2020241206061232.png)

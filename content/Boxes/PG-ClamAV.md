@@ -1,4 +1,15 @@
-#snmp #clamav #sendmail #exploit-4761
+---
+tags:
+- snmp
+- clamav
+- sendmail
+- exploit-4761
+created: 2024-04-01
+lastmod: 2024-04-01
+published: 2024-04-01
+image:
+description: 
+---
 
 >[!code]- Find open ports (22, 25, 80, 139, 199, 445, 60000)
 >**All ports:**

@@ -1,4 +1,14 @@
-#cs-cart #lfi #default-credentials #sudo-l
+---
+tags:
+- cs-cart
+- lfi
+- default-credentials
+created: 2024-04-01
+lastmod: 2024-04-01
+published: 2024-04-01
+image:
+description: 
+---
 
 >[!code]- Open ports
 >![Pasted image 20241120060507](Images/Pasted%20image%2020241120060507.png)

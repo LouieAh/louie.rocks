@@ -1,4 +1,14 @@
-#postgres #psql #port5437 #suid-find 
+---
+tags:
+- postgres
+- port5437
+- suid-find
+created: 2024-04-01
+lastmod: 2024-04-01
+published: 2024-04-01
+image:
+description: 
+---
 
 >[!code]- Find open ports (21, 22, 80, 5437)
 >![Pasted image 20241002060947](Images/Pasted%20image%2020241002060947.png)

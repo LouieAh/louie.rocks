@@ -1,5 +1,14 @@
-#### Tags
-- Foothold: #smtp #opensmtpd #exploit-47984 #passwd #mkpasswd
+---
+tags:
+- smtp
+- opensmtpd
+- exploit-47984
+created: 2024-04-01
+lastmod: 2024-04-01
+published: 2024-04-01
+image:
+description: 
+---
 #### Method
 
 >[!code]- Find open ports (22, 25, 80, 445)

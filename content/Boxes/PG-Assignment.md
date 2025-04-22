@@ -1,7 +1,15 @@
-- All: #notes-pg #gogs #api #git-hook #reverse-shell #netcat-busybox #pspy #cron #find #exec #bash-p #base64
-- Foothold: #notes-pg #api
-- Access: #gogs #git-hook #reverse-shell #netcat-busybox
-- Priv Esc: #pspy #cron #find #exec #bash-p #base64
+---
+tags:
+- gogs
+- git-hook
+- base-p
+- api
+created: 2024-04-01
+lastmod: 2024-04-01
+published: 2024-04-01
+image:
+description: 
+---
 #### Enumeration
 
 >[!code] Enumerate the ports

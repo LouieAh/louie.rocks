@@ -1,4 +1,15 @@
-#ntds-dit #impacket-secretsdump #genericall-computer #constrained-delegation #resourced-based-constrained-delegation
+---
+tags:
+- ntds-dit
+- genericall-computer
+- constrained-delegation
+- resourced-based-constrained-delegation
+created: 2024-04-01
+lastmod: 2024-04-01
+published: 2024-04-01
+image:
+description: 
+---
 
 >[!code]- Open ports (53, 88, 135, 139, 389, 445, 464, 593, 636, 3268, 3269, 3389, 5985, 9389)
 >###### Full list

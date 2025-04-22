@@ -1,4 +1,16 @@
-#client-side-attack #shortcut-file #responder #SeBackupPrivilege #SeRestorePrivilege #GPO #gpo-policy #gpo-permissions #gpo-exploit
+---
+tags:
+- shortcut-file
+- responder
+- sebackupprivilege
+- serestoreprivilege
+- gpo
+created: 2024-04-01
+lastmod: 2024-04-01
+published: 2024-04-01
+image:
+description: 
+---
 
 >[!code]- Open ports
 >![Pasted image 20241126071036](Images/Pasted%20image%2020241126071036.png)

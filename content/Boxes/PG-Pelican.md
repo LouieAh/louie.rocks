@@ -1,4 +1,16 @@
-#zookeeper #exhibitor #cve-2019-5029 #exploit-48654 #gcore #strings #su #sudo-l
+---
+tags:
+- zookeeper
+- exhibitor
+- cve-2019-5029
+- exploit-48654
+- gcore
+created: 2024-04-01
+lastmod: 2024-04-01
+published: 2024-04-01
+image:
+description: 
+---
 
 >[!code]- Open ports
 >![Pasted image 20241120044139](Images/Pasted%20image%2020241120044139.png)

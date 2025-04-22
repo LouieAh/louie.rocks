@@ -1,4 +1,16 @@
-#rpcclient #anonymous #enumdomusers #pre-authdisabled #winrm #evil-winrm #port445 #port5985 #spn #ad #bloodhound #dcsync #kerberoast #asreproast
+---
+tags:
+- spn
+- ad
+- dcsync
+- kerberoast
+- asreproast
+created: 2024-04-01
+lastmod: 2024-04-01
+published: 2024-04-01
+image:
+description: 
+---
 
 >[!code]- Find open ports
 >![Pasted image 20240828170119](Images/Pasted%20image%2020240828170119.png)

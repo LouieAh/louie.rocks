@@ -1,4 +1,15 @@
-#extplorer #default-credentials #php-reverse-shell #htusers #hashcat #disk-group
+---
+tags:
+- extplorer
+- default-credentials
+- htusers
+- disk-group
+created: 2024-04-01
+lastmod: 2024-04-01
+published: 2024-04-01
+image:
+description: 
+---
 
 >[!code]- Find open ports (22, 80)
 >

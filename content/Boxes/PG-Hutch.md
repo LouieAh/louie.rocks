@@ -1,7 +1,17 @@
-192.168.120.122
-hutch.offsec
-
-#laps #ldap #ms-mcs-admpwd #pylaps #webdav #scheduled-task 
+---
+tags:
+- laps
+- ldap
+- ms-mcs-admpwd
+- pylaps
+- webdav
+- scheduled-task
+created: 2024-04-01
+lastmod: 2024-04-01
+published: 2024-04-01
+image:
+description: 
+---
 
 >[!code]- Open ports
 >![Pasted image 20241204055636](Images/Pasted%20image%2020241204055636.png)

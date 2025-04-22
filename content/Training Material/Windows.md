@@ -1,3 +1,12 @@
+---
+tags:
+- training material
+created: 2020-01-01
+lastmod: 2020-01-01
+published: 2020-01-01
+image: 
+description: 
+---
 ## Exploits Flowchart
 I have...
 - No domain account access

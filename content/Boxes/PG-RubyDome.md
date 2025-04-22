@@ -1,4 +1,15 @@
-#pdfkit #cve-2022-25765 #sudo #ruby #bash-p
+---
+tags:
+- pdfkit
+- cve-2022-25765
+- ruby
+- bash-p
+created: 2024-04-01
+lastmod: 2024-04-01
+published: 2024-04-01
+image:
+description: 
+---
 
 >[!code]- Scan for open ports (22, 3000)
 >![Pasted image 20240722044841](Pasted%20image%2020240722044841.png)

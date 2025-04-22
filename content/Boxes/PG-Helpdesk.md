@@ -1,4 +1,16 @@
-#manageengine #servicedesk #7-6-0 #default-credentials #cve-2014-5301 #war #msfvenom
+---
+tags:
+- manageengine
+- service
+- default-credentials
+- cve-2014-5301
+- war
+created: 2024-04-01
+lastmod: 2024-04-01
+published: 2024-04-01
+image:
+description: 
+---
 
 >[!code]- Find open ports (135, 139, 445, 3389, 8080)
 >![Pasted image 20240709061742](Pasted%20image%2020240709061742.png)

@@ -1,6 +1,14 @@
-- All: #grav-cms #grav #exploit-49973 #suid #php 
-- Foothold: #grav-cms #grav #exploit-49973 
-- Priv Esc: #suid #php
+---
+tags:
+- grav
+- exploit-49973
+- suid
+created: 2024-04-01
+lastmod: 2024-04-01
+published: 2024-04-01
+image:
+description: 
+---
 #### Enumeration
 
 >[!code]- Rustscan - ports 22, 80

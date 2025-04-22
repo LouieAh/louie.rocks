@@ -1,4 +1,14 @@
-#eternal-blue #smb #windows7
+---
+tags:
+- eternal-blue
+- smb
+- windows7
+created: 2024-04-01
+lastmod: 2024-04-01
+published: 2024-04-01
+image:
+description: 
+---
 #### Nmap
 
 ```bash

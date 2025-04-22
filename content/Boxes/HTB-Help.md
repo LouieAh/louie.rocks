@@ -10,7 +10,7 @@ tags:
 created: 2025-04-19
 lastmod: 2025-04-22
 published: 2025-04-22
-image: /static/completed-screenshots/htb-help.png
+image: /static/completed-thumbnails/htb-help.png
 description: Help is an Easy Linux box which has a GraphQL endpoint which can be enumerated get a set of credentials for a HelpDesk software. The software is vulnerable to blind SQL injection which can be exploited to get a password for SSH Login. Alternatively an unauthenticated arbitrary file upload can be exploited to get RCE. Then the kernel is found to be vulnerable and can be exploited to get a root shell.
 ---
 

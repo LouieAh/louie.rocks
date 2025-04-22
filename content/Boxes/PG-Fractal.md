@@ -1,4 +1,15 @@
-#robots-txt #app_dev #symfony #fragment #lfi #proftp #sql-conf #mysql #authorized-keys #sudo-i
+---
+tags:
+- symfony
+- fragment
+- proftp
+- sql-conf
+created: 2024-04-01
+lastmod: 2024-04-01
+published: 2024-04-01
+image:
+description: 
+---
 
 >[!code]- Find open ports (21, 22, 80)
 #### Foothold

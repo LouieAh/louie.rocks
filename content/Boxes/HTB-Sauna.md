@@ -1,5 +1,14 @@
-#asreproast #generateADusernames #autologon #registry #DCsync
-
+---
+tags:
+- asreproast
+- autologon
+- dcsync
+created: 2024-04-01
+lastmod: 2024-04-01
+published: 2024-04-01
+image:
+description: 
+---
 >[!code]- Find open ports
 >
 >![Pasted image 20240829153257](Images/Pasted%20image%2020240829153257.png)

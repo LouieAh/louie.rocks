@@ -1,4 +1,14 @@
-#redis #redis-load-module #ld_library_path #cron #shared-library-file
+---
+tags:
+- redis
+- ld-library-path
+- cron
+created: 2024-04-01
+lastmod: 2024-04-01
+published: 2024-04-01
+image:
+description: 
+---
 
 >[!code]- Find open ports (21, 22, 80, 6379)
 >

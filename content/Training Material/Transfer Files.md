@@ -1,3 +1,12 @@
+---
+tags:
+- training material
+created: 2020-01-01
+lastmod: 2020-01-01
+published: 2020-01-01
+image: 
+description: 
+---
 #### Transfer to Linux
 
 >[!code]- From Linux or Windows

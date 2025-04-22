@@ -1,4 +1,15 @@
-#zeromq #zmtp #cve-2020-11651 #cve-2020-11652
+---
+tags:
+- zeromq
+- zmtp
+- cve-2020-11651
+- cve-2020-11652
+created: 2024-04-01
+lastmod: 2024-04-01
+published: 2024-04-01
+image:
+description: 
+---
 
 >[!code]- Find open ports (22, 53, 80, 4505, 4506, 8000)
 >![Pasted image 20240723051959](Pasted%20image%2020240723051959.png)

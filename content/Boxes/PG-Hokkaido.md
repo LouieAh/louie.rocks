@@ -1,4 +1,15 @@
-#kerbrute #sql #impersonate #mssql #sql-impersonate #impersonate-user #setuserinfo2 #rpc #sebackupprivilege #impacket-secretsdump
+---
+tags:
+- kerbrute
+- impersonate
+- setuserinfo2
+- sebackupprivilege
+created: 2024-04-01
+lastmod: 2024-04-01
+published: 2024-04-01
+image:
+description: 
+---
 
 >[!code]- Open ports
 >![Pasted image 20241107055435](Images/Pasted%20image%2020241107055435.png)

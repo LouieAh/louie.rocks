@@ -1,4 +1,15 @@
-#htaccess #nc-exe #file-upload #Invoke-RunasCs #SeManageVolumePrivilege #WerTrigger
+---
+tags:
+- htaccess
+- semanagevolumeprivilege
+- wertrigger
+- invoke-runasc
+created: 2024-04-01
+lastmod: 2024-04-01
+published: 2024-04-01
+image:
+description: 
+---
 
 >[!code]- Find open ports (53, 80, 88, 135, 139, 389, 445, 464, 593, 636, 3268, 3269, 5985, 9389)
 >![Pasted image 20241101062119](Images/Pasted%20image%2020241101062119.png)

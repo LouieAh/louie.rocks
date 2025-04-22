@@ -1,4 +1,17 @@
-#generateADusernames #kerberoast #setuserinfo2 #chisel #internal-service #mssql #silver-ticket #seimpersonateprivilege #printspoofer
+---
+tags:
+- kerberoast
+- setuserinfo2
+- chisel
+- silver-ticket
+- seimpersonateprivilege
+- printspoofer
+created: 2024-04-01
+lastmod: 2024-04-01
+published: 2024-04-01
+image:
+description: 
+---
 
 >[!code]- Open ports
 >![Pasted image 20241114054101](Images/Pasted%20image%2020241114054101.png)

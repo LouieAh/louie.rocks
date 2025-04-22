@@ -1,4 +1,17 @@
-#api #john2pdf #pdf-password #pdf-decrypt #ssh-port-forward #psexec #scp
+---
+tags:
+- api
+- john2pdf
+- pdf
+- ssh-port-forward
+- psexec
+- scp
+created: 2024-04-01
+lastmod: 2024-04-01
+published: 2024-04-01
+image:
+description: 
+---
 
 >[!code]- Find open ports (21, 22, 135, 139, 445, 3389, 5040, 8089, 33333)
 >

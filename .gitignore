@@ -12,5 +12,6 @@ content/Templates
 content/CTFs
 content/Exams
 **/HTB-Dante.md
+**/HTB-Zephry
 **/.trash
 .gitignore

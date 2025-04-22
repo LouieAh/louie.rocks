@@ -1,4 +1,19 @@
-#grafana #cve-2021-43798 #exploit-50581 #go #pbkdf2 #disk-group #port3000 #ppp
+---
+tags:
+- grafana
+- cve-2021-43798
+- exploit-50581
+- go
+- pbkdf2
+- disk-group
+- port3000
+- ppp
+created: 2024-04-01
+lastmod: 2024-04-01
+published: 2024-04-01
+image:
+description: 
+---
 
 >[!code]- Find open ports (22, 3000 http, 9090 http)
 >![Pasted image 20240701044601](Pasted%20image%2020240701044601.png)

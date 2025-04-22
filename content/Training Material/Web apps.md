@@ -1,8 +1,11 @@
 ---
-title: Web apps
-tags: []
-created: 2025-03-25
-modified: 2025-03-25
+tags:
+- training material
+created: 2020-01-01
+lastmod: 2020-01-01
+published: 2020-01-01
+image: 
+description: 
 ---
 ## Enumeration
 

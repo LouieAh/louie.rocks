@@ -1,3 +1,12 @@
+---
+tags:
+- training material
+created: 2020-01-01
+lastmod: 2020-01-01
+published: 2020-01-01
+image: 
+description: 
+---
 #### Find-AVSignature (good in theory, bad in practice)
 
 >[!code]- Downloaded and Import Find-AVSignature
