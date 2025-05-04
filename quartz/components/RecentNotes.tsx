@@ -73,7 +73,7 @@ export default ((userOpts?: Partial<Options>) => {
                     </ul>
                   )}
                   <img src={page.frontmatter.image ?? "static/note-thumbnails/default.png"} alt={title} class="note-thumbnail" />
-                  <p>{page.frontmatter.description}</p>
+                  <p style="margin: 0 0 50px 0">{page.frontmatter.description}</p>
                 </div>
               </li>
             )
