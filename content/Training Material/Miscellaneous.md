@@ -43,14 +43,14 @@ description:
 >Must use a verson of virtualenv <= 20.21.1 as [later versions don't support python2 virtual environments](https://stackoverflow.com/questions/76380381/create-virtualenv-for-python-2-7-with-python-3-10).
 >
 >```powershell
-># Create Python2 virtualenv (perhaps in folder of python script)
+># Create Python2 virtualenv
 >virtualenv -p /usr/bin/python2 ./virtualenvs/2/env
->
 ># Create Python3 virtualenv
 >virtualenv ./virtualenvs/3/env
 >
 ># Activate virtualenv
->source ./virtualenvs/2/bin/activate
+>source ./virtualenvs/2/env/bin/activate
+>source ./virtualenvs/3/env/bin/activate
 >
 ># Deactivate
 >deactivate
