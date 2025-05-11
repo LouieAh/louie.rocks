@@ -1,11 +1,12 @@
 ---
 created: 2025-05-05
 published: 2025-05-07
+lastmod: 2025-05-07
 tags:
 - learning
 - command injection
 image: /static/note-thumbnails/htb-command-injections.png
-description: Throughout this module, we learned different techniques for identifying and exploiting command injection vulnerabilities in web applications and applying various techniques to bypass filters and security mitigations.
+description: Throughout this module, I learned different techniques for identifying and exploiting command injection vulnerabilities in web applications and applying various techniques to bypass filters and security mitigations.
 ---
 
 <img src="/static/note-thumbnails/htb-command-injections.png" alt="htb command injections logo" style="max-width: 450px; height: auto; display: block; margin: 0 auto; box-shadow: 0px 0px 14px 0px rgba(0,0,0,0.9);">
