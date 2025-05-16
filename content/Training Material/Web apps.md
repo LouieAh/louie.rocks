@@ -1080,9 +1080,214 @@ description:
 >>![[Images/Pasted image 20250508065212.png]]
 >
 >(Changes made to the code in this way will not persist through page refreshes).
+###### Bypass back-end validation
 
+>[!code]- Bypass a blacklist (e.g. ignore `.php`)
+>Use Burp to fuzz the extension of the file in the POST request that sends the file:
+>
+>	(Un-tick the URL Encoding option to avoid encoding the `.` before the file extension)
+>
+>![[Images/Pasted image 20250512053746.png]]
 
+>[!code]- Bypass a whitelist (e.g. must contain `.jpg`)
+>###### Double extension (.jpg.php)
+>If the backend checks for whether the extension CONTAINS a non-malicious extension, like `.jpg`, it might still be possible to bypass this check by uploading a file that contains a non-malicious extension but ends in the executing extension, like `.jpg.php`.
+>
+>###### Reverse double extension (.php.jpg)
+>If the web server (e.g. Apache) is configured to execute a file's contents if the file name contains, for example, `php` or `phar`, then, even if the backend filter requires an uploaded file's extension to end in a non-executable extension, like `.jpg`, the web app would still execute the file `test.php.jpg` because the file name contains `php` AND it ends in `.jpg`.
+>
+>An example web server (Apache2) configuration: `/etc/apache2/mods-enabled/php7.4.conf`:
+>
+>![[Images/Pasted image 20250512064925.png]]
+>
+>###### Character injection (.php%00.jpg)
+>>[!code]- Characters to inject
+>>Certain characters can be misinterpreted by web applications. For example, `shell.php%00.jpg` works with PHP servers with version `5.X` or earlier, as it causes the PHP web server to end the file name after the `%00` and stores the file as `shell.php`.
+>>
+>>The same might work on a Windows server by injecting a colon (`:`) , eg `shell.aspx:.jpg`.
+>>
+>>![[Images/Pasted image 20250512065503.png]]
+>
+>>[!code]- Generate all permutations of character injections
+>>This script generates all permutations of the file name, where the above characters are injected before and after both the php and jpG extensions.
+>>
+>>```powershell
+>>for char in '%20' '%0a' '%00' '%0d0a' '/' '.\\' '.' '…' ':'; do
+>>    for ext in '.php' '.phps'; do
+>>        echo "shell$char$ext.jpg" >> wordlist.txt
+>>        echo "shell$ext$char.jpg" >> wordlist.txt
+>>        echo "shell.jpg$char$ext" >> wordlist.txt
+>>        echo "shell.jpg$ext$char" >> wordlist.txt
+>>    done
+>>done
+>>```
 
+>[!code]- Bypass type filters (e.g. `Content-Type:` or `File-Content` must contain)
+>###### Content Type
+>
+>>[!info]- What is the Content-Type
+>>It's a header, set for either the form data or the general POST request. It's meant to describe the type of data that is encompassed within the POST data / form data:
+>>
+>>![[Images/Pasted image 20250514052600.png]]
+>
+>Capture a request in Burp.
+>
+>Fuzz the `Content-Type` value with Seclists Content-Type wordlist:
+>```powershell
+># download the wordlist
+>wget https://raw.githubusercontent.com/danielmiessler/SecLists/refs/heads/master/Discovery/Web-Content/web-all-content-types.txt
+>
+># filter to only images
+>cat web-all-content-types.txt | grep 'image/' > image-content-types.txt
+>```
+>
+>Send the malicious request with the permitted `Content-Type` value (for example, `image/<something>`):
+>
+>![[Images/Pasted image 20250512193048.png]]
+>
+>###### MIME Type
+>
+>>[!info]- What is the MIME Type
+>>It's the value assigned to data to describe what type of data it is, based on its general structure or format. The magic number of a file often is used to determine the file's mime type.
+>
+>Add a magic number at the top of the malicious data:
+>
+>![[Images/Pasted image 20250514053043.png]]
+###### Other File Upload Attacks
+
+>[!code]- HTML uploads
+>Upload a HTML file which contains malicious JavaScript to perform [[Training Material/Web Apps#Cross-Site Scripting (XSS)|a stored XSS attack]].
+
+>[!code]- Image uploads (with malicious metadata)
+>###### XSS attack
+>When the image's metadata is displayed, the XSS payload should be triggered, and the JS code will be executed to carry out the XSS attack.
+>```powershell
+>exiftool -Comment=' "><img src=1 onerror=alert(window.origin)>' HTB.jpg
+>```
+>Furthermore, if the image's MIME-type is changed to `text/html`, some web apps may show the image as a HTML document, in which case the XSS payload would be triggered even if the metadata wasn't directly displayed.
+
+>[!code]- SVG uploads
+>###### XSS attack
+>Scalable Vector Graphics (SVG) images are XML-based, and they describe 2D vector graphics, which the browser renders into an image.
+>
+>We can modify their XML data to include an XSS payload (code taken from [this page](https://academy.hackthebox.com/module/136/section/1291)):
+>
+>![[Images/Pasted image 20250514063044.png]]
+>
+>Or to read PHP files without it being executed:
+>
+>```powershell
+>php://filter/convert.base64-encode/resource=upload.php
+>```
+>
+>![[Images/Pasted image 20250514190800.png]]
+>
+>The uploaded `htb.svg` file will trigger the XSS payload whenever its displayed.
+>
+>###### XXE attack
+>Upload a SVG image that defines an entity called `xxe` which, when that entity is parsed, asks the system to retrieve the `/etc/passwd` file:
+>
+>![[Images/Pasted image 20250514063514.png]]
+>
+>Or try to read source files:
+>
+>![[Images/Pasted image 20250514065127.png]]
+
+>[!code]- PDF, Word, PowerPoint etc.
+>###### XXE attack
+>PDF, Word documents, PowerPoint documents, among many others, all contains XML data, which, if a web applications allowed the upload of these documents and its document viewer (XML parser) was vulnerable to XXE, it could give us access to files on the host machine.
+
+>[!code]- DoS attacks
+>1. **Decompression Bomb:** upload a malicious ZIP file with a lot of nested ZIP archives within it. If the web app automatically unzips any uploaded ZIP files, we may be able to upload a malicious ZIP that, when unzipped, results to a file with petabytes of data (!)
+>
+>2. **Pixel Flood:** create any JPG image with any image size, then manually modify its compression data to say it has a size of `0xffff x 0xffff` which results in an image with a perceived size of 4 gigapixels. When the web app attempts to display the image, it will attempt to allocate all of its memory to this image, resulting in a crash on the back-end server.
+>
+>3. **Upload an overly-large file**, if the web app doesn't limit the file size. Doing so may fill up the server's hard drive and cause it to crash or slow down considerably.
+>   
+>4. **Upload to a different folder**, if the web app allows uploads to escape the current directory (e.g. `../../../etc/passwd`). This could cause the server to crash.
+
+>[!code]- Injections within the file name
+>If we uploaded a file with the filename:
+>```powershell
+>file$(whoami).jpg
+>file$(whoami).jpg
+>file.jpg||whoami
+>
+># alternatively
+><script>alert(window.origin);</script>
+>file';select+sleep(5);--.jpg
+>```
+>
+>And then the web app attempts to move the uploaded file with an OS command like:
+>```powershell
+>mv file /tmp
+>```
+>
+>Then the OS would execute the injected command.
+
+>[!exploit]- Skills Assessment - Hack The Box Academy
+>A directory search reveals the page `/contact`:
+>
+>![[Images/Pasted image 20250515053805.png]]
+>
+>On it is a upload field which has front-end validation for images only:
+>
+>![[Images/Pasted image 20250515053853.png]]
+>
+>Deleting the validating HTML code circumnavigates the front-end validation:
+>
+>![[Images/Pasted image 20250515054001.png]]
+>
+>Capture an upload request in Burp:
+>
+>![[Images/Pasted image 20250515054535.png]]
+>
+>>[!code]- Fuzz the `filename=` value
+>>Send an image, but change the PNG data to a PHP script AND fuzz the `filename=` value against the format `shell``<injection character>``<.jpg>``<php extension>` in differing orders.
+>>
+>>![[Images/Pasted image 20250515054645.png]]
+>>
+>>What we learn from the results:
+>>- A blacklist appears to be in place, blocking `.php`, `.phps`, `.phtml` (but `.php2,3,4,5,6,7` and `.phar` appear to be allowed)
+>>- A deeper filter is in place, perhaps reading the request's mime-type
+>
+>I take a different tack and try to upload an SVG to reveal a file using an XXE exploit. I'm able to read the contents of `/etc/passwd` this way:
+>
+>![[Images/Pasted image 20250516052309.png]]
+>
+>![[Images/Pasted image 20250516052335.png]]
+>
+>The `scipt.js` file reveals an `uploads.php` file and its location.:
+>
+>![[Images/Pasted image 20250516054345.png]]
+>
+>I can read this file using the SVG XXE exploit:
+>
+>![[Images/Pasted image 20250516054448.png]]
+>
+>Which injects the file as base64 code into the DOM:
+>
+>![[Images/Pasted image 20250516054526.png]]
+>
+>The decoded contents reveals the upload directory ( eg `/var/www/html/contact/user_feedback_submissions/250513_shell.php):
+>
+>![[Images/Pasted image 20250516054651.png]]
+>
+>With that in mind, I can upload an 'image' which has a jpg header (`0xDD 0xF8 0xDD 0xE0` but is followed by PHP code. Hopefully, by naming the file `shell.phar.jpg`, the server is configured to execute the file using a PHP interpreter simply because theres a php-like extension in its file name.
+>
+>![[Images/Pasted image 20250516060714.png]]
+>
+>The file is uploaded and I can execute its contents against the `cmd` parameter to execute commands:
+>
+>![[Images/Pasted image 20250516060841.png]]
+>
+>I `ls` the contents of the `/` directory:
+>
+>![[Images/Pasted image 20250516061112.png]]
+>
+>And then `cat` the contents of the flag:
+>
+>![[Images/Pasted image 20250516061138.png]]
 
 
 
