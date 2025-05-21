@@ -10,6 +10,7 @@ tags:
 image: /static/completed-thumbnails/htb-writeup.png
 description: Writeup is an easy difficulty Linux box with DoS protection in place to prevent brute forcing. A CMS susceptible to a SQL injection vulnerability is found, which is leveraged to gain user credentials. The user is found to be in a non-default group, which has write access to part of the PATH. A path hijacking results in escalation of privileges to root.
 ---
+
 <img src="/static/note-thumbnails/htb-writeup.png" alt="htb writeup" style="max-width: 450px; height: auto; display: block; margin: 0 auto; box-shadow: 0px 0px 14px 0px rgba(0,0,0,0.9);">
 
 ## Initial Enumeration

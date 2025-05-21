@@ -68,7 +68,7 @@ Time to complete: ~3 hours
 >![[Images/Pasted image 20250511145842.png]]
 >![[Images/Pasted image 20250511145858.png]]
 >
->There are only three results, the first of which says *"participants of the Bellingcat workshop at **\#ARIJ17**"*:
+>There are only three results, the first of which says *"participants of the Bellingcat workshop at **ARIJ17**"*:
 >
 >![[Images/Pasted image 20250511145655.png]]
 >

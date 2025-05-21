@@ -702,8 +702,10 @@ I have a...
 >[!code]- Files
 >###### Owner
 >```powershell
->Get-ChildItem -Path .\ | Select-Object FullName, @{Name="Owner"; Expression={(Get-Acl $_.FullName).Owner}} | Format-Table -AutoSize
+>Get-ChildItem -Path .\ | Select-Object FullName, @{Name="Owner"; Expression={(Get-Acl $\_.FullName).Owner}} | Format-Table -AutoSize
 >```
+
+>[!code]- System vulnerabilities
 ## Exploits
 #### Hijacking Service Binaries
 
