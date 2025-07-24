@@ -4,10 +4,9 @@ published: 2025-07-24
 lastmod: 2025-07-24
 tags:
 - learning
-- ssrf
-- ssti
-- ssi
-- xslt
+- brute-forcing
+- hydra
+- medusa
 image: /static/note-thumbnails/htb-login-brute-forcing.png
 description: This module contains an exploration of brute-forcing techniques, including the use of tools like Hydra and Medusa, and the importance of strong password practices. It covers various attack scenarios, such as targeting SSH, FTP, and web login forms.
 ---
